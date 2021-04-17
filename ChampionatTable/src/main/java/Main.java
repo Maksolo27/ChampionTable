@@ -1,12 +1,11 @@
 import Entity.Matches;
 import Entity.Team;
+import javafx.collections.transformation.SortedList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by maxim on 06.04.2021.
@@ -23,6 +22,7 @@ public class Main {
         int quantity = scanner.nextInt();
         List<Matches> matches = mathesHelper.getMatchesList();
         List<Team> matchesTeams = new ArrayList<Team>();
+        List<Team> teamList = teamHelper.getTeamList();
         for (int i = 0; i < quantity; i++) {
             scanner = new Scanner(System.in);
             System.out.println("Введите имя первой команды");
@@ -68,18 +68,16 @@ public class Main {
                 continue;
             }
             Team team1 = new Team(teamName1);
-            matchesTeams.add(team1);
             Team team2 = new Team(teamName2);
-            matchesTeams.add(team2);
-            int scoresTeam1 = match.addScore(goals1, goals2);
+            int scoresTeam1 = match.countScore(goals1, goals2);
+            int scoresTeam2 = match.countScore(goals2, goals1);
             team1.setScore(scoresTeam1);
-            int scoresTeam2 = match.addScore(goals2, goals1);
             team2.setScore(scoresTeam2);
-            session.beginTransaction();
-            session.save(match);
-            session.getTransaction().commit();
+            matchesTeams.add(team2);
+            matchesTeams.add(team1);
+            mathesHelper.addMatch(match);
         }
-        List<Team> teamList = teamHelper.getTeamList();
+
         Team testTeam = new Team("Name", 0);
         teamList.add(testTeam);
         for (int i = 0; i < matchesTeams.size(); i++) {
@@ -96,7 +94,16 @@ public class Main {
                 teamHelper.addTeam(team);
             }
         }
-
+        List<Team> sortedTeams = new ArrayList<>();
+        Set<Team> updateTeamList = teamHelper.getToutnamentTable();
+        Iterator<Team> it = updateTeamList.iterator();
+        while(it.hasNext()){
+            sortedTeams.add(it.next());
+        }
+        sortedTeams.sort(Team::compareTo);
+        for (int i = 0; i < sortedTeams.size(); i++) {
+            System.out.println(sortedTeams.get(i).getName() + " " + sortedTeams.get(i).getScore());
+        }
         HibernateUtils.getFactory().close();
         session.close();
         }

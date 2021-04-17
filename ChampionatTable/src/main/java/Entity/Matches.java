@@ -3,15 +3,13 @@ package Entity;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by maxim on 06.04.2021.
  */
 @Entity
+
 @DynamicUpdate
 @DynamicInsert
 public class Matches {
@@ -119,7 +117,7 @@ public class Matches {
                 ", team2='" + team2 + '\'' +
                 '}';
     }
-    public int addScore(int goals1, int goals2){
+    public int countScore(int goals1, int goals2){
         if(goals1 > goals2){
             return 3;
         }

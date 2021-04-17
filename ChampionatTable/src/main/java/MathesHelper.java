@@ -24,15 +24,10 @@ public class MathesHelper {
     public List<Matches> getMatchesList(){
 
         Session session = sessionFactory.openSession();
-
-
         CriteriaBuilder cb = session.getCriteriaBuilder();
-
         CriteriaQuery<Matches> cq = cb.createQuery(Matches.class);
-
         Root<Matches> root = cq.from(Matches.class);
-
-        Selection[] selections = {root.get("team1"), root.get("team2")};
+        Selection[] selections = {root.get("goals1"), root.get("goals2"), root.get("team1"), root.get("team2")};
 
         cq.select(cb.construct(Matches.class, selections));
 

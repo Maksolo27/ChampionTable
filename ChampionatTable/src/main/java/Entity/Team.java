@@ -1,15 +1,12 @@
 package Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by maxim on 07.04.2021.
  */
 @Entity
-public class Team {
+public class Team implements Comparable<Team> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +66,10 @@ public class Team {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    public int compareTo(Team team) {
+        return team.getScore() - this.getScore();
     }
 }
 
