@@ -1,21 +1,23 @@
 package Entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 /**
  * Created by maxim on 07.04.2021.
  */
 @Entity
+@DynamicUpdate
+@DynamicInsert
 public class Team implements Comparable<Team> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
-
     private int score;
-
 
     public String getName() {
         return name;
@@ -49,6 +51,7 @@ public class Team implements Comparable<Team> {
         this.name = name;
         this.score = score;
     }
+
     public Team(){
 
     }
@@ -60,7 +63,7 @@ public class Team implements Comparable<Team> {
 
         Team team = (Team) o;
 
-        return name != null ? name.equals(team.name) : team.name == null;
+        return name != null ? name.equals(team.name) : team.name == null;   //Проверка только по названиях команд
     }
 
     @Override

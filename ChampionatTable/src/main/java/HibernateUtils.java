@@ -11,7 +11,9 @@ public class HibernateUtils {
     private static SessionFactory factory;
 
     static {
-        factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        factory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .buildSessionFactory();
     }
 
     public static SessionFactory getFactory(){

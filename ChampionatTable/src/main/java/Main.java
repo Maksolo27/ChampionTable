@@ -1,9 +1,6 @@
 import Entity.Matches;
 import Entity.Team;
-import javafx.collections.transformation.SortedList;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.util.*;
 
@@ -14,15 +11,14 @@ public class Main {
     public static void main(String[] args) {
 
         Session session = HibernateUtils.getFactory().openSession();
-        MathesHelper mathesHelper = new MathesHelper();
+        MatсhesHelper matсhesHelper = new MatсhesHelper();
         TeamHelper teamHelper = new TeamHelper();
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите количество сыгранных матчей");
         int quantity = scanner.nextInt();
-        List<Matches> matches = mathesHelper.getMatchesList();
-        List<Team> matchesTeams = new ArrayList<Team>();
-        List<Team> teamList = teamHelper.getTeamList();
+        List<Matches> matchesFromDatabase = matсhesHelper.getMatchesList();
+        List<Team> teamsFromCurrentMatches = new ArrayList<Team>();
+        List<Team> allTeams = teamHelper.getTeamList();
         for (int i = 0; i < quantity; i++) {
             scanner = new Scanner(System.in);
             System.out.println("Введите имя первой команды");
@@ -49,11 +45,10 @@ public class Main {
             match.setGoals1(goals1);
             match.setGoals2(goals2);
             match.setTeam2(teamName2);
-
             System.out.println(match.hashCode());
             System.out.println("----");
             boolean flag = false;
-            for (Matches tempMatch: matches) {
+            for (Matches tempMatch: matchesFromDatabase) {
                 System.out.println(tempMatch.toString());
                 if(match.equals(tempMatch)) {
                     System.out.println("Этот матч уже был");
@@ -63,7 +58,6 @@ public class Main {
                     break;
                 }
             }
-
             if(flag){
                 continue;
             }
@@ -73,39 +67,38 @@ public class Main {
             int scoresTeam2 = match.countScore(goals2, goals1);
             team1.setScore(scoresTeam1);
             team2.setScore(scoresTeam2);
-            matchesTeams.add(team2);
-            matchesTeams.add(team1);
-            mathesHelper.addMatch(match);
+            teamsFromCurrentMatches.add(team2);
+            teamsFromCurrentMatches.add(team1);
+            matсhesHelper.addMatch(match);
         }
-
-        Team testTeam = new Team("Name", 0);
-        teamList.add(testTeam);
-        for (int i = 0; i < matchesTeams.size(); i++) {
+        Team testTeam = new Team("Name", 0);//Добавление тестовой команды, если список пуст
+        allTeams.add(testTeam);
+        for (int i = 0; i < teamsFromCurrentMatches.size(); i++) {
             boolean isInDatabase = false;
-            for (int j = 0; j < teamList.size() ; j++) {
-                if(teamList.get(j).equals(matchesTeams.get(i))){
+            for (int j = 0; j < allTeams.size() ; j++) {
+                if(allTeams.get(j).equals(teamsFromCurrentMatches.get(i))){
                     isInDatabase = true;
                 }
             }
             if(!isInDatabase) {
                 Team team = new Team();
-                team.setName(matchesTeams.get(i).getName());
-                team.setScore(matchesTeams.get(i).getScore());
+                team.setName(teamsFromCurrentMatches.get(i).getName());
+                team.setScore(teamsFromCurrentMatches.get(i).getScore());
                 teamHelper.addTeam(team);
             }
         }
-        List<Team> sortedTeams = new ArrayList<>();
-        Set<Team> updateTeamList = teamHelper.getToutnamentTable();
-        Iterator<Team> it = updateTeamList.iterator();
-        while(it.hasNext()){
-            sortedTeams.add(it.next());
+        List<Team> teamListForSort = new ArrayList<>();
+        Set<Team> updateTeamList = teamHelper.getTeamsWithUpdatedScore();
+        Iterator<Team> iterator = updateTeamList.iterator();
+        while(iterator.hasNext()){
+            teamListForSort.add(iterator.next());
         }
-        sortedTeams.sort(Team::compareTo);
-        for (int i = 0; i < sortedTeams.size(); i++) {
-            System.out.println(sortedTeams.get(i).getName() + " " + sortedTeams.get(i).getScore());
+        teamListForSort.sort(Team::compareTo);
+        for (int i = 0; i < teamListForSort.size(); i++) {
+            System.out.println(teamListForSort.get(i).getName() + " " + teamListForSort.get(i).getScore());
         }
-        HibernateUtils.getFactory().close();
         session.close();
+        HibernateUtils.getFactory().close();
         }
 
 

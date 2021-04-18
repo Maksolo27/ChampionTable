@@ -9,7 +9,6 @@ import javax.persistence.*;
  * Created by maxim on 06.04.2021.
  */
 @Entity
-
 @DynamicUpdate
 @DynamicInsert
 public class Matches {
@@ -17,13 +16,9 @@ public class Matches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private int goals1;
-
     private int goals2;
-
     private String team1;
-
     private String team2;
 
     public Matches(long id ,int goals1, int goals2, String team1, String team2) {
@@ -33,20 +28,9 @@ public class Matches {
         this.goals2 = goals2;
         this.team2 = team2;
     }
+
     public Matches(){
 
-    }
-
-    public Matches(int goals1, int goals2, String team1, String team2) {
-        this.goals1 = goals1;
-        this.goals2 = goals2;
-        this.team1 = team1;
-        this.team2 = team2;
-    }
-
-    public Matches(String team1, String team2) {
-        this.team1 = team1;
-        this.team2 = team2;
     }
 
     public String getTeam1() {
@@ -89,13 +73,12 @@ public class Matches {
         return id;
     }
 
+
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) {     //Проверка только по названиях команд
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Matches matches = (Matches) o;
-
         if (team1 != null ? !team1.equals(matches.team1) : matches.team1 != null) return false;
         return team2 != null ? team2.equals(matches.team2) : matches.team2 == null;
     }
@@ -117,6 +100,7 @@ public class Matches {
                 ", team2='" + team2 + '\'' +
                 '}';
     }
+
     public int countScore(int goals1, int goals2){
         if(goals1 > goals2){
             return 3;
