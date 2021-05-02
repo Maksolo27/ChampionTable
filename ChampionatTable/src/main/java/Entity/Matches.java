@@ -21,7 +21,7 @@ public class Matches {
     private String team1;
     private String team2;
 
-    public Matches(long id ,int goals1, int goals2, String team1, String team2) {
+    public Matches(int goals1, int goals2, String team1, String team2) {
         this.id = id;
         this.team1 = team1;
         this.goals1 = goals1;

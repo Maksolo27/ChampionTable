@@ -52,30 +52,6 @@ public class TeamHelper {
         return teamList;
     }
 
-    public List<Team> getTeamByColum(String column, String value){
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Team.class);
-        Root<Team> root = cq.from(Team.class);
-        cq.select(root).where(cb.like(root.<String>get(column), value));
-        Query query = session.createQuery(cq);
-        List<Team> teamList = query.getResultList();
-        session.close();
-        return teamList;
-    }
-
-    public void upadateTeam(Team updateTeam, int score){
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Team> teamList = getTeamList();
-        for (int i = 0; i < teamList.size(); i++) {
-            if(teamList.get(i).equals(updateTeam)){
-                teamList.get(i).setScore(score);
-                session.save(teamList.get(i));
-            }
-        }
-        session.getTransaction().commit();
-    }
 
     public Set<Team> getTeamsWithUpdatedScore(){
         Set<Team> updateTeamList = new HashSet<>();//Удаление повторяющихся команд

@@ -11,13 +11,20 @@ public class Main {
     public static void main(String[] args) {
 
         Session session = HibernateUtils.getFactory().openSession();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите действие: ");
+        System.out.println("Удалить");
+        String action = scanner.nextLine();
+        if(action.equals("Удалить")){
+
+        }
         MatсhesHelper matсhesHelper = new MatсhesHelper();
         TeamHelper teamHelper = new TeamHelper();
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         System.out.println("Введите количество сыгранных матчей");
         int quantity = scanner.nextInt();
         List<Matches> matchesFromDatabase = matсhesHelper.getMatchesList();
-        List<Team> teamsFromCurrentMatches = new ArrayList<Team>();
+        List<Team> teamsFromCurrentMatches = new ArrayList<>();
         List<Team> allTeams = teamHelper.getTeamList();
         for (int i = 0; i < quantity; i++) {
             scanner = new Scanner(System.in);
