@@ -63,15 +63,23 @@ public class TeamHelper {
                 if(allTeams.get(i).getName().equals(allMatches.get(j).getTeam1())){
                     Matches tempMatch = allMatches.get(j);
                     int score = tempMatch.countScore(tempMatch.getGoals1(), tempMatch.getGoals2());
+                    int goalScored = tempMatch.getGoals1();
+                    int goalConced = tempMatch.getGoals2();
                     Team tempTeam = allTeams.get(i);
+                    tempTeam.setGoalScored(tempTeam.getGoalScored() + goalScored);
+                    tempTeam.setGoalConceded(tempTeam.getGoalConceded() + goalConced);
                     tempTeam.setScore(tempTeam.getScore() + score);
                     updateTeamList.add(tempTeam);
                 }
                 if(allTeams.get(i).getName().equals(allMatches.get(j).getTeam2())){
                     Matches tempMatch = allMatches.get(j);
                     int score = tempMatch.countScore(tempMatch.getGoals2(), tempMatch.getGoals1());
+                    int goalScored = tempMatch.getGoals2();
+                    int goalConced = tempMatch.getGoals1();
                     Team tempTeam = allTeams.get(i);
                     tempTeam.setScore(tempTeam.getScore() + score);
+                    tempTeam.setGoalScored(tempTeam.getGoalScored() + goalScored);
+                    tempTeam.setGoalConceded(tempTeam.getGoalConceded() + goalConced);
                     updateTeamList.add(tempTeam);
                 }
             }

@@ -12,12 +12,6 @@ public class Main {
 
         Session session = HibernateUtils.getFactory().openSession();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Выберите действие: ");
-        System.out.println("Удалить");
-        String action = scanner.nextLine();
-        if(action.equals("Удалить")){
-
-        }
         MatсhesHelper matсhesHelper = new MatсhesHelper();
         TeamHelper teamHelper = new TeamHelper();
         scanner = new Scanner(System.in);
@@ -72,6 +66,10 @@ public class Main {
             Team team2 = new Team(teamName2);
             int scoresTeam1 = match.countScore(goals1, goals2);
             int scoresTeam2 = match.countScore(goals2, goals1);
+            team1.setGoalScored(goals1);
+            team2.setGoalScored(goals2);
+            team1.setGoalConceded(goals2);
+            team2.setGoalConceded(goals1);
             team1.setScore(scoresTeam1);
             team2.setScore(scoresTeam2);
             teamsFromCurrentMatches.add(team2);
@@ -91,6 +89,8 @@ public class Main {
                 Team team = new Team();
                 team.setName(teamsFromCurrentMatches.get(i).getName());
                 team.setScore(teamsFromCurrentMatches.get(i).getScore());
+                team.setGoalConceded(teamsFromCurrentMatches.get(i).getGoalConceded());
+                team.setGoalScored(teamsFromCurrentMatches.get(i).getGoalScored());
                 teamHelper.addTeam(team);
             }
         }
@@ -102,7 +102,8 @@ public class Main {
         }
         teamListForSort.sort(Team::compareTo);
         for (int i = 0; i < teamListForSort.size(); i++) {
-            System.out.println(teamListForSort.get(i).getName() + " " + teamListForSort.get(i).getScore());
+            System.out.println(teamListForSort.get(i).getName() + " " + teamListForSort.get(i).getScore() + " " + teamListForSort.get(i).getGoalScored() + " "
+            + teamListForSort.get(i).getGoalConceded());
         }
         session.close();
         HibernateUtils.getFactory().close();

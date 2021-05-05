@@ -18,6 +18,24 @@ public class Team implements Comparable<Team> {
     private int id;
     private String name;
     private int score;
+    private int goalScored;
+    private int goalConceded;
+
+    public int getGoalScored() {
+        return goalScored;
+    }
+
+    public void setGoalScored(int goalScored) {
+        this.goalScored = goalScored;
+    }
+
+    public int getGoalConceded() {
+        return goalConceded;
+    }
+
+    public void setGoalConceded(int goalConceded) {
+        this.goalConceded = goalConceded;
+    }
 
     public String getName() {
         return name;
@@ -74,6 +92,7 @@ public class Team implements Comparable<Team> {
     public int compareTo(Team team) {
         return team.getScore() - this.getScore();
     }
+
 }
 
 
