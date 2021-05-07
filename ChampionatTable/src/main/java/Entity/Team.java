@@ -1,5 +1,7 @@
 package Entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,6 +13,8 @@ import javax.persistence.*;
 @Entity
 @DynamicUpdate
 @DynamicInsert
+@Data
+@NoArgsConstructor
 public class Team implements Comparable<Team> {
 
     @Id
@@ -21,45 +25,6 @@ public class Team implements Comparable<Team> {
     private int goalScored;
     private int goalConceded;
 
-    public int getGoalScored() {
-        return goalScored;
-    }
-
-    public void setGoalScored(int goalScored) {
-        this.goalScored = goalScored;
-    }
-
-    public int getGoalConceded() {
-        return goalConceded;
-    }
-
-    public void setGoalConceded(int goalConceded) {
-        this.goalConceded = goalConceded;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Team(String name) {
         this.name = name;
@@ -68,10 +33,6 @@ public class Team implements Comparable<Team> {
     public Team(String name, int score) {
         this.name = name;
         this.score = score;
-    }
-
-    public Team(){
-
     }
 
     @Override
@@ -90,6 +51,9 @@ public class Team implements Comparable<Team> {
     }
 
     public int compareTo(Team team) {
+        if(team.getScore() - this.getScore() == 0){
+            return (team.getGoalScored() - team.getGoalConceded()) - (this.getGoalScored() - this.getGoalConceded());
+        }
         return team.getScore() - this.getScore();
     }
 

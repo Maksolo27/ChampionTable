@@ -1,5 +1,8 @@
 package Entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,6 +14,9 @@ import javax.persistence.*;
 @Entity
 @DynamicUpdate
 @DynamicInsert
+@Data
+@NoArgsConstructor
+@ToString
 public class Matches {
 
     @Id
@@ -29,51 +35,6 @@ public class Matches {
         this.team2 = team2;
     }
 
-    public Matches(){
-
-    }
-
-    public String getTeam1() {
-        return team1;
-    }
-
-    public void setTeam1(String team1) {
-        this.team1 = team1;
-    }
-
-    public int getGoals1() {
-        return goals1;
-    }
-
-    public void setGoals1(int goals1) {
-        this.goals1 = goals1;
-    }
-
-    public int getGoals2() {
-        return goals2;
-    }
-
-    public void setGoals2(int goals2) {
-        this.goals2 = goals2;
-    }
-
-    public String getTeam2() {
-        return team2;
-    }
-
-    public void setTeam2(String team2) {
-        this.team2 = team2;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-
     @Override
     public boolean equals(Object o) {     //Проверка только по названиях команд
         if (this == o) return true;
@@ -88,17 +49,6 @@ public class Matches {
         int result = team1 != null ? team1.hashCode() : 0;
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Matches{" +
-                "id=" + id +
-                ", team1='" + team1 + '\'' +
-                ", goals1=" + goals1 +
-                ", goals2=" + goals2 +
-                ", team2='" + team2 + '\'' +
-                '}';
     }
 
     public int countScore(int goals1, int goals2){
