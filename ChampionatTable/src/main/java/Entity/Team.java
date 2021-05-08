@@ -1,11 +1,15 @@
 package Entity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.omg.CORBA.TRANSIENT;
 
 import javax.persistence.*;
+import java.lang.reflect.Modifier;
 
 /**
  * Created by maxim on 07.04.2021.
@@ -19,7 +23,7 @@ public class Team implements Comparable<Team> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private  int id;
     private String name;
     private int score;
     private int goalScored;
@@ -55,6 +59,12 @@ public class Team implements Comparable<Team> {
             return (team.getGoalScored() - team.getGoalConceded()) - (this.getGoalScored() - this.getGoalConceded());
         }
         return team.getScore() - this.getScore();
+    }
+
+    public String getJsonTeam(){
+        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).setPrettyPrinting().create();
+        String result = gson.toJson(this);
+        return result;
     }
 
 }

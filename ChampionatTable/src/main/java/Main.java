@@ -105,8 +105,15 @@ public class Main {
             System.out.println(teamListForSort.get(i).getName() + " " + teamListForSort.get(i).getScore() + " " + teamListForSort.get(i).getGoalScored() + " "
             + teamListForSort.get(i).getGoalConceded());
         }
+        System.out.println("Хотите получить список в json формате?");
+        System.out.println("/json");
+        scanner = new Scanner(System.in);
+        if(scanner.nextLine().equals("/json")){
+            for (int i = 0; i < teamListForSort.size(); i++) {
+                System.out.println(teamListForSort.get(i).getJsonTeam());
+            }
+        }
         session.close();
-        HibernateUtils.getFactory().close();
         }
 
 
